@@ -2,3 +2,4 @@
 Minha versão de um banco de dados integrado com Python para cadastro e gerenciamento de usuários usando SQL
 
 # Em desenvolvimento constante
+Versão atual 1.2
