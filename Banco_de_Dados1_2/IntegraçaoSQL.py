@@ -13,3 +13,23 @@ def ConexaoSql():
     finally:
         return conexao
 
+def NovaTabela(conexao, tabela):
+    try:
+        conect = conexao.cursor()
+        conect.execute(tabela)
+        print("Tabela criada com sucesso!")
+    except Error as erro:
+        print(erro)
+
+conectar = ConexaoSql()
+
+tabela = """CREATE TABLE USUARIOS(
+            ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
+            NOME VARCHAR(30),
+            IDADE VARCHAR(3)
+            );"""
+
+NovaTabela(conectar, tabela)
+
+conectar.close()
+
