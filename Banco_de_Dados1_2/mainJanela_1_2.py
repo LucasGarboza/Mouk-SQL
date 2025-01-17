@@ -1,5 +1,7 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
+# Importa as funções de integração com o SQL
+from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import ConexaoSql, NovaTabela
 
 # Nome da Variável/Janela
 janela = CTk()
@@ -15,6 +17,7 @@ class Mouk:
         self.OpçaoListar_Usuarios()
         self.encerrar()
         self.versao()
+        self.ConexaoSQl()
         self.janela.mainloop()
 
     def encerrar(self):
@@ -141,7 +144,6 @@ class Mouk:
                                                text_color='#228B22')
                         TextoCadastrado.place(relx=0.28, rely=u, relwidth=0.5, relheight=0.1)
                         u += 0.05
-                        print(u)
             except:
                 # Exibe texto informando não ter localizado nenhum usuário cadastrado
                 TextoCadastrado = CTkLabel(self.OpçaoListar,
@@ -166,6 +168,19 @@ class Mouk:
                           font=('Arial',10,'bold'),
                           text_color='#228B22',
                           fg_color='grey15').place(relx=0.102, rely=0.89, relwidth=0.05, relheight=0.03)
+
+    def ConexaoSQl(self):
+        conectar = ConexaoSql()
+
+        tabela = """CREATE TABLE USUARIOS(
+                    ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
+                    NOME VARCHAR(30),
+                    IDADE VARCHAR(3)
+                    );"""
+
+        NovaTabela(conectar, tabela)
+
+        conectar.close()
 
 # Mantém o programa em loop
 Mouk()

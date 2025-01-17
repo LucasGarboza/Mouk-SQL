@@ -13,6 +13,7 @@ def ConexaoSql():
     finally:
         return conexao
 
+# Função que tenta criar uma nova tabela com base nos parâmetros passados
 def NovaTabela(conexao, tabela):
     try:
         conect = conexao.cursor()
@@ -21,15 +22,5 @@ def NovaTabela(conexao, tabela):
     except Error as erro:
         print(erro)
 
-conectar = ConexaoSql()
 
-tabela = """CREATE TABLE USUARIOS(
-            ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
-            NOME VARCHAR(30),
-            IDADE VARCHAR(3)
-            );"""
-
-NovaTabela(conectar, tabela)
-
-conectar.close()
 
