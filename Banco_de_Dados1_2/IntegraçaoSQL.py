@@ -22,5 +22,33 @@ def NovaTabela(conexao, tabela):
     except Error as erro:
         print(erro)
 
+# Função que tenta inserir novos dados com base nos parâmetros passados
+def NovosDados(conexao, dados):
+    try:
+        conect = conexao.cursor()
+        conect.execute(dados)
+        conexao.commit()
+        print("Dados adicionados com sucesso!")
+    except Error as erro:
+        print(erro)
+
+# Modelo de nova tabela:
+tabela = """CREATE TABLE MOUK_USUARIOS(
+                ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
+                NOME VARCHAR(30),
+                ANO_NASCIMENTO VARCHAR(10),
+                EMAIL VARCHAR (30),
+                CONTATO VARCHAR(15),
+                CARGO VARCHAR(20),
+                CPF VARCHAR(15)
+                );"""
+
+# Modelo de novos dados
+Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
+               "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
+               f"VALUES('{nome}', '{Ano_Nascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
+
+# Chama a função de conexão mantendo a integração entre o Python e o SQL
+conectar = ConexaoSql()
 
 
