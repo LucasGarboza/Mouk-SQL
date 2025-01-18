@@ -1,5 +1,6 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
+
 # Importa as funções de integração com o SQL
 from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import ConexaoSql, NovaTabela
 
@@ -13,11 +14,10 @@ class Mouk:
         self.janela = janela
         self.config_tela()
         self.frame_opçoes()
-        self.OpçaoCadastrar_Usuarios()
         self.OpçaoListar_Usuarios()
+        self.OpçaoCadastrar_Usuarios()
         self.encerrar()
         self.versao()
-        self.ConexaoSQl()
         self.janela.mainloop()
 
     def encerrar(self):
@@ -73,20 +73,25 @@ class Mouk:
 
         def cadastrar():
             # Realiza a coleta e verificação dos dados
-            nome = CxTextoNome.get()
-            idade = CxTexToIdade.get()
-            if nome == '' or idade == '':
+            # nome = CxTextoNome.get()
+            AnoNascimento = CxTexToAnoNascimento.get()
+            cpf = CxTexToCpf.get()
+            email = CxTexToEmail.get()
+            cargo = CxTexToCargo.get()
+            contato = CxTexToContato.get()
+
+            if nome == None or AnoNascimento == '' or cpf == '' or email == '' or cargo == '' or contato == '':
                 TextoCadastrado = CTkLabel(self.OpçaoCadastrar,
                                            text=f'Por favor insira todos os\n'
                                                 f'dados para continuar!',
                                            font=("Arial", 16, "bold"),
                                            text_color='red')
-                TextoCadastrado.place(relx=0.1, rely=0.3, relwidth=0.8, relheight=0.09)
+                TextoCadastrado.place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
             else:
                 try:
                     # Tenta Cadastrar os dados em arquivo de texto
                     with open('cadastros.txt', 'a+', encoding='utf-8') as arquivo:
-                        arquivo.writelines(f'{nome};{idade}\n')
+                        arquivo.writelines(f'{nome};{AnoNascimento}\n')
                 except:
                     print('Erro no cadastro')
                 finally:
@@ -97,7 +102,47 @@ class Mouk:
                                                  text_color='#228B22')
                     TextoCadastrado.place(relx=0.1, rely=0.3, relwidth=0.8, relheight=0.09)
                     CxTextoNome.delete(0, END)
-                    CxTexToIdade.delete(0, END)
+                    CxTexToAnoNascimento.delete(0, END)
+                    CxTexToCargo.delete(0, END)
+                    CxTexToContato.delete(0, END)
+                    CxTexToCpf.delete(0, END)
+                    CxTexToEmail.delete(0, END)
+
+        # Caixa de texto 'Informe os dados'
+        TextoInformeDados = CTkLabel(self.OpçaoCadastrar,
+                                     text='Informe os dados abaixo:',
+                                     font=("Arial", 11, "bold"),
+                                     text_color='white').place(relx=0.15, rely=0.02, relwidth=0.275, relheight=0.1)
+        nome = None
+        # Caixa de texto para o usuário inserir seu nome
+        CxTextoNome = CTkEntry(self.OpçaoCadastrar,
+                               placeholder_text='Nome Completo', textvariable=nome)
+        CxTextoNome.place(relx=0.15, rely=0.1, relwidth=0.4, relheight=0.1)
+
+        # Caixa de texto para o usuário inserir o ano de nascimento
+        CxTexToAnoNascimento = CTkEntry(self.OpçaoCadastrar,
+                                placeholder_text='Ano de Nascimento')
+        CxTexToAnoNascimento.place(relx=0.56, rely=0.1, relwidth=0.3, relheight=0.1)
+
+        # Caixa de texto para o usuário inserir seu e-mail
+        CxTexToEmail = CTkEntry(self.OpçaoCadastrar,
+                                placeholder_text='E-mail')
+        CxTexToEmail.place(relx=0.15, rely=0.21, relwidth=0.45, relheight=0.1)
+
+        # Caixa de texto para o usuário inserir seu cpf
+        CxTexToCpf = CTkEntry(self.OpçaoCadastrar,
+                                placeholder_text='CPF: 000.000.000-00')
+        CxTexToCpf.place(relx=0.15, rely=0.32, relwidth=0.3, relheight=0.1)
+
+        # Caixa de texto para o usuário inserir o contato de telefone
+        CxTexToContato = CTkEntry(self.OpçaoCadastrar,
+                                placeholder_text='(00) 0 0000-0000')
+        CxTexToContato.place(relx=0.61, rely=0.21, relwidth=0.25, relheight=0.1)
+
+        # Caixa de texto para o usuário inserir seu cargo
+        CxTexToCargo = CTkEntry(self.OpçaoCadastrar,
+                                placeholder_text='Cargo')
+        CxTexToCargo.place(relx=0.46, rely=0.32, relwidth=0.4, relheight=0.1)
 
         # Botão Cadastrar
         BotaoCadastrar = CTkButton(self.OpçaoCadastrar,
@@ -106,27 +151,10 @@ class Mouk:
                                    text_color='#DCDCDC',
                                    hover_color='#228B22',
                                    fg_color='grey25',
-                                   command=cadastrar).place(relx=0.25, rely=0.21, relwidth=0.51, relheight=0.09)
-
-        # Caixa de texto 'Informe os dados'
-        TextoInformeDados = CTkLabel(self.OpçaoCadastrar,
-                                     text='Informe os dados abaixo:',
-                                     font=("Arial", 11, "bold"),
-                                     text_color='white').place(relx=0.238, rely=0.02, relwidth=0.3, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir seu nome
-        CxTextoNome = CTkEntry(self.OpçaoCadastrar,
-                               placeholder_text='Nome Completo')
-        CxTextoNome.place(relx=0.25, rely=0.1, relwidth=0.4, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir sua idade
-        CxTexToIdade = CTkEntry(self.OpçaoCadastrar,
-                                placeholder_text='Idade')
-        CxTexToIdade.place(relx=0.66, rely=0.1, relwidth=0.1, relheight=0.1)
+                                   command=cadastrar).place(relx=0.15, rely=0.43, relwidth=0.71, relheight=0.09)
 
     def OpçaoListar_Usuarios(self):
         # # Configurações do frame com as funcionalidades de listar usuários cadastrados
-        self.OpçaoCadastrar.place_forget()
         self.OpçaoListar = CTkFrame(janela, fg_color='grey18')
         self.OpçaoListar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
 
@@ -168,19 +196,6 @@ class Mouk:
                           font=('Arial',10,'bold'),
                           text_color='#228B22',
                           fg_color='grey15').place(relx=0.102, rely=0.89, relwidth=0.05, relheight=0.03)
-
-    def ConexaoSQl(self):
-        conectar = ConexaoSql()
-
-        tabela = """CREATE TABLE USUARIOS(
-                    ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
-                    NOME VARCHAR(30),
-                    IDADE VARCHAR(3)
-                    );"""
-
-        NovaTabela(conectar, tabela)
-
-        conectar.close()
 
 # Mantém o programa em loop
 Mouk()

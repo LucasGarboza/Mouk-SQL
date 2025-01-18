@@ -22,5 +22,30 @@ def NovaTabela(conexao, tabela):
     except Error as erro:
         print(erro)
 
+conectar = ConexaoSql()
 
+tabela = """CREATE TABLE USUARIOS(
+            ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
+            NOME VARCHAR(30),
+            IDADE VARCHAR(3)
+            );"""
+
+def inserirDadosSql(conexao, dados):
+    try:
+        conect = conexao.cursor()
+        conect.execute(dados)
+        conexao.commit()
+        print("Dados inseridos com sucesso!")
+    except Error as erro:
+        print(erro)
+
+NovosDados = """INSERT INTO USUARIOS
+                (NOME, IDADE)
+                VALUES("LUCAS HENRIQUE ZUNARELLI GARBOZA", "29")
+                """
+
+# NovaTabela(conectar, tabela)
+# inserirDadosSql(conectar, NovosDados)
+
+conectar.close()
 
