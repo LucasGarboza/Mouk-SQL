@@ -80,7 +80,7 @@ class Mouk:
             cargo = CxTexToCargo.get()
             contato = CxTexToContato.get()
 
-            if nome == None or AnoNascimento == '' or cpf == '' or email == '' or cargo == '' or contato == '':
+            if nome == '' or AnoNascimento == '' or cpf == '' or email == '' or cargo == '' or contato == '':
                 TextoCadastrado = CTkLabel(self.OpçaoCadastrar,
                                            text=f'Por favor insira todos os\n'
                                                 f'dados para continuar!',
