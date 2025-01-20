@@ -33,20 +33,20 @@ def NovosDados(conexao, dados):
         print(erro)
 
 # Modelo de nova tabela:
-tabela = """CREATE TABLE MOUK_USUARIOS(
-                ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
-                NOME VARCHAR(30),
-                ANO_NASCIMENTO VARCHAR(10),
-                EMAIL VARCHAR (30),
-                CONTATO VARCHAR(15),
-                CARGO VARCHAR(20),
-                CPF VARCHAR(15)
-                );"""
+# tabela = """CREATE TABLE MOUK_USUARIOS(
+#                 ID_USUARIO INTEGER PRIMARY KEY AUTOINCREMENT,
+#                 NOME VARCHAR(30),
+#                 ANO_NASCIMENTO VARCHAR(10),
+#                 EMAIL VARCHAR (30),
+#                 CONTATO VARCHAR(15),
+#                 CARGO VARCHAR(20),
+#                 CPF VARCHAR(15)
+#                 );"""
 
 # Modelo de novos dados
-Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
-               "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
-               f"VALUES('{nome}', '{Ano_Nascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
+# Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
+#                "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
+#                f"VALUES('{nome}', '{Ano_Nascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
 
 # Chama a função de conexão mantendo a integração entre o Python e o SQL
 conectar = ConexaoSql()
