@@ -1,6 +1,5 @@
+# Importa a biblioteca do Sqlite3 (SQL)
 import sqlite3
-from sqlite3 import Error
-import os
 
 # Função que tentar integrar o Python com o SQLite e retorna conexão com o banco de dados
 def ConexaoSql():
@@ -8,7 +7,7 @@ def ConexaoSql():
     conexao = None
     try:
         conexao = sqlite3.connect(local)
-    except Error as erro:
+    except sqlite3.Error as erro:
         print(erro)
     finally:
         return conexao
@@ -19,16 +18,18 @@ def NovaTabela(conexao, tabela):
         conect = conexao.cursor()
         conect.execute(tabela)
         print("Tabela criada com sucesso!")
-    except Error as erro:
+    except sqlite3.Error as erro:
         print(erro)
 
+# Função que tenta inserir novos dados com base nos parâmetros passados
 def NovosDados(conexao, dados):
     try:
         conect = conexao.cursor()
         conect.execute(dados)
         conexao.commit()
         print("Novos dados inseridos com sucesso!")
-    except Error as erro:
+    except sqlite3.Error as erro:
         print(erro)
 
+# Chama a função de conexão
 conectar = ConexaoSql()
