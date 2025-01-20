@@ -22,5 +22,13 @@ def NovaTabela(conexao, tabela):
     except Error as erro:
         print(erro)
 
+def NovosDados(conexao, dados):
+    try:
+        conect = conexao.cursor()
+        conect.execute(dados)
+        conexao.commit()
+        print("Novos dados inseridos com sucesso!")
+    except Error as erro:
+        print(erro)
 
-
+conectar = ConexaoSql()
