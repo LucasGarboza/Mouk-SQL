@@ -89,10 +89,6 @@ class Mouk:
                                            text_color='red').place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
             else:
                 try:
-                    # # Tenta Cadastrar os dados em arquivo de texto (Versão antiga usando bloco de texto)
-                    # with open('cadastros.txt', 'a+', encoding='utf-8') as arquivo:
-                    #     arquivo.writelines(f'{nome};{AnoNascimento}\n')
-
                     # Comando que insere novos dados usando as variaveis correspondentes
                     Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
                                    "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
@@ -168,27 +164,13 @@ class Mouk:
         self.OpcaoListar = CTkFrame(self.janela, fg_color='grey18')
         self.OpcaoListar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
 
-        def listar():
-            # Tenta procurar por usuários cadastrados
-            try:
-                with open('cadastros.txt', 'rt') as texto:
-                    u = 0.3
-                    # Exibe cada usuário cadastrado por linha
-                    for linha in texto:
-                        dado = linha.split(';')
-                        TextoCadastrado = CTkLabel(self.OpcaoListar,
-                                               text=f'{dado[0]:<25} {dado[1]:>5}',
-                                               font=("Arial", 16, "bold"),
-                                               text_color='#228B22')
-                        TextoCadastrado.place(relx=0.28, rely=u, relwidth=0.5, relheight=0.1)
-                        u += 0.05
-            except:
-                # Exibe texto informando não ter localizado nenhum usuário cadastrado
-                TextoCadastrado = CTkLabel(self.OpcaoListar,
-                                           text='Nenhum usuário cadastrado!',
-                                           font=("Arial", 16, "bold"),
-                                           text_color='red')
-                TextoCadastrado.place(relx=0.26, rely=0.3, relwidth=0.5, relheight=0.1)
+        # def listar():
+        #         # Exibe texto informando não ter localizado nenhum usuário cadastrado
+        #         TextoCadastrado = CTkLabel(self.OpcaoListar,
+        #                                    text='Nenhum usuário cadastrado!',
+        #                                    font=("Arial", 16, "bold"),
+        #                                    text_color='red')
+        #         TextoCadastrado.place(relx=0.26, rely=0.3, relwidth=0.5, relheight=0.1)
 
         # Botão para listar os usuários cadastrados
         BotaoListar = CTkButton(self.OpcaoListar,
@@ -196,13 +178,12 @@ class Mouk:
                                    font=("Arial", 11, "bold"),
                                    text_color='#DCDCDC',
                                    hover_color='#228B22',
-                                   fg_color='grey25',
-                                   command=listar).place(relx=0.25, rely=0.1, relwidth=0.51, relheight=0.09)
+                                   fg_color='grey25').place(relx=0.25, rely=0.1, relwidth=0.51, relheight=0.09)
 
     # Exibe a versão atual do programa (ainda apenas um texto sem atualização automatica)
     def versao(self):
         Versao = CTkLabel(self.Frame1,
-                          text='V 1.1',
+                          text='V 1.2.4',
                           font=('Arial',10,'bold'),
                           text_color='#228B22',
                           fg_color='grey15').place(relx=0.102, rely=0.89, relwidth=0.05, relheight=0.03)
