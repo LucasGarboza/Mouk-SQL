@@ -1,7 +1,9 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
+from tkinter import ttk
 # Importa as funções de inserir novos dados e conexão do módulo de integração Python/SQL
 from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, conectar
+
 
 # Nome da Variável/Janela
 janela = CTk()
@@ -102,7 +104,7 @@ class Mouk:
                 finally:
                     # Exibe texto confirmando o cadastro
                     TextoCadastrado = CTkLabel(self.OpcaoCadastrar,
-                                                 text=f'Usuário {nome[1]} cadastrado com sucesso!',
+                                                 text=f'Usuário {nome[1].split()} cadastrado com sucesso!',
                                                  font=("Arial", 16, "bold"),
                                                  text_color='#228B22')
                     TextoCadastrado.place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
@@ -127,13 +129,13 @@ class Mouk:
 
         # Caixa de texto para o usuário inserir o ano de nascimento
         CxTexToAnoNascimento = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='Ano de Nascimento')
+                                placeholder_text='Data de Nascimento')
         CxTexToAnoNascimento.place(relx=0.56, rely=0.1, relwidth=0.3, relheight=0.1)
 
         # Caixa de texto para o usuário inserir seu e-mail
         CxTexToEmail = CTkEntry(self.OpcaoCadastrar,
                                 placeholder_text='E-mail')
-        CxTexToEmail.place(relx=0.15, rely=0.21, relwidth=0.45, relheight=0.1)
+        CxTexToEmail.place(relx=0.15, rely=0.21, relwidth=0.42, relheight=0.1)
 
         # Caixa de texto para o usuário inserir seu cpf
         CxTexToCpf = CTkEntry(self.OpcaoCadastrar,
@@ -142,8 +144,8 @@ class Mouk:
 
         # Caixa de texto para o usuário inserir o contato de telefone
         CxTexToContato = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='(00) 0 0000-0000')
-        CxTexToContato.place(relx=0.61, rely=0.21, relwidth=0.25, relheight=0.1)
+                                placeholder_text='TEL: (00) 0 0000-0000')
+        CxTexToContato.place(relx=0.58, rely=0.21, relwidth=0.28, relheight=0.1)
 
         # Caixa de texto para o usuário inserir seu cargo
         CxTexToCargo = CTkEntry(self.OpcaoCadastrar,
@@ -179,6 +181,25 @@ class Mouk:
                                    text_color='#DCDCDC',
                                    hover_color='#228B22',
                                    fg_color='grey25').place(relx=0.25, rely=0.1, relwidth=0.51, relheight=0.09)
+
+        RelacaoUsuarios = ttk.Treeview(self.OpcaoListar, columns=("id", "nome", "data_nascimento", "e-mail",
+                                                                  "contato", "cargo", "cpf"), show="headings")
+
+        RelacaoUsuarios.column("id", width=30)
+        RelacaoUsuarios.heading("id", text="ID")
+        RelacaoUsuarios.column("nome", width=300)
+        RelacaoUsuarios.heading("nome", text="NOME")
+        RelacaoUsuarios.column("data_nascimento", width=130)
+        RelacaoUsuarios.heading("data_nascimento", text="DATA NASCIMENTO")
+        RelacaoUsuarios.column("e-mail", width=300)
+        RelacaoUsuarios.heading("e-mail", text="E-MAIL")
+        RelacaoUsuarios.column("contato", width=100)
+        RelacaoUsuarios.heading("contato", text="CONTATO")
+        RelacaoUsuarios.column("cargo", width=200)
+        RelacaoUsuarios.heading("cargo", text="CARGO")
+        RelacaoUsuarios.column("cpf", width=100)
+        RelacaoUsuarios.heading("cpf", text="CPF")
+        RelacaoUsuarios.place(relx=0.01, rely=0.4, relwidth=0.98, relheight=0.59)
 
     # Exibe a versão atual do programa (ainda apenas um texto sem atualização automatica)
     def versao(self):
