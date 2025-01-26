@@ -1,9 +1,9 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
+# Importa a função treeview do tkinter
 from tkinter import ttk
 # Importa as funções de inserir novos dados e conexão do módulo de integração Python/SQL
-from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, conectar
-
+from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, conectar, ListaDados
 
 # Nome da Variável/Janela
 janela = CTk()
@@ -29,7 +29,7 @@ class Mouk:
     def config_tela(self):
         self.janela.config(background='#363636')  # Cor de fundo
         self.janela.title('Mouk - Banco de Dados')  # Título
-        self.janela.geometry('700x500')  # Dimensões x | y
+        self.janela.geometry('1020x660')  # Dimensões x | y
 
     # Configurações do Frame para as opções laterais a esquerda
     def frame_opcoes(self):
@@ -45,7 +45,7 @@ class Mouk:
                                    hover_color='#228B22',
                                    fg_color='grey25',
                                    corner_radius=0,
-                                   command=self.OpcaoCadastrar_Usuarios).place(relx=0.001, rely=0, relwidth=0.25, relheight=0.08)
+                                   command=self.OpcaoCadastrar_Usuarios).place(relx=0.001, rely=0, relwidth=0.25, relheight=0.083)
 
         # Botão 'Usuários cadastrados'
         BotaoUsuarios = CTkButton(self.Frame1,
@@ -55,7 +55,7 @@ class Mouk:
                                   hover_color='#228B22',
                                   fg_color='grey25',
                                   corner_radius=0,
-                                  command=self.OpcaoListar_Usuarios).place(relx=0.001, rely=0.085, relwidth=0.25, relheight=0.08)
+                                  command=self.OpcaoListar_Usuarios).place(x=0.001, rely=0.085, relwidth=0.25, relheight=0.083)
 
         # Botão para finalizar a janela
         BotaoEncerrar = CTkButton(self.Frame1,
@@ -65,7 +65,7 @@ class Mouk:
                                   hover_color='#B22222',
                                   fg_color='grey25',
                                   corner_radius=0,
-                                  command=self.encerrar).place(relx=0.001, rely=0.925, relwidth=0.25, relheight=0.08)
+                                  command=self.encerrar).place(x=0.001, rely=0.925, relwidth=0.25, relheight=0.083)
 
     # Configurações do frame com as funcionalidades para cadastrar um usuário
     def OpcaoCadastrar_Usuarios(self):
@@ -120,7 +120,7 @@ class Mouk:
         TextoInformeDados = CTkLabel(self.OpcaoCadastrar,
                                      text='Informe os dados abaixo:',
                                      font=("Arial", 11, "bold"),
-                                     text_color='white').place(relx=0.15, rely=0.02, relwidth=0.275, relheight=0.1)
+                                     text_color='white').place(relx=0.075, rely=0.02, relwidth=0.275, relheight=0.1)
 
         # Caixa de texto para o usuário inserir seu nome
         CxTextoNome = CTkEntry(self.OpcaoCadastrar,
@@ -166,25 +166,43 @@ class Mouk:
         self.OpcaoListar = CTkFrame(self.janela, fg_color='grey18')
         self.OpcaoListar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
 
-        # def listar():
-        #         # Exibe texto informando não ter localizado nenhum usuário cadastrado
-        #         TextoCadastrado = CTkLabel(self.OpcaoListar,
-        #                                    text='Nenhum usuário cadastrado!',
-        #                                    font=("Arial", 16, "bold"),
-        #                                    text_color='red')
-        #         TextoCadastrado.place(relx=0.26, rely=0.3, relwidth=0.5, relheight=0.1)
+        # Função que lista todos os usuários cadastrados e exibe na relação
+        def listar():
+            RelacaoUsuarios.delete(*RelacaoUsuarios.get_children())
+            comandoSql = "SELECT * FROM MOUK_USUARIOS order by ID_USUARIO"
+            relacao = ListaDados(conectar, comandoSql)
+            for l in relacao:
+                RelacaoUsuarios.insert("", "end", values=l)
 
         # Botão para listar os usuários cadastrados
         BotaoListar = CTkButton(self.OpcaoListar,
-                                   text='Listar',
+                                   text='LISTAR',
                                    font=("Arial", 11, "bold"),
                                    text_color='#DCDCDC',
                                    hover_color='#228B22',
-                                   fg_color='grey25').place(relx=0.25, rely=0.1, relwidth=0.51, relheight=0.09)
+                                   fg_color='grey25',
+                                   command=listar).place(relx=0.25, rely=0.1, relwidth=0.1, relheight=0.09)
+
+        # Botão para buscar usuários cadastrados
+        BotaoBuscar = CTkButton(self.OpcaoListar,
+                                text='BUSCAR',
+                                font=("Arial", 11, "bold"),
+                                text_color='#DCDCDC',
+                                hover_color='#228B22',
+                                fg_color='grey25').place(relx=0.45, rely=0.1, relwidth=0.1, relheight=0.09)
+
+        # Botão para deletar usuários cadastrados
+        BotaoDeletar = CTkButton(self.OpcaoListar,
+                                text='DELETAR',
+                                font=("Arial", 11, "bold"),
+                                text_color='#DCDCDC',
+                                hover_color='#228B22',
+                                fg_color='grey25').place(relx=0.65, rely=0.1, relwidth=0.1, relheight=0.09)
 
         RelacaoUsuarios = ttk.Treeview(self.OpcaoListar, columns=("id", "nome", "data_nascimento", "e-mail",
                                                                   "contato", "cargo", "cpf"), show="headings")
 
+        # Configurações das colunas coma  relação dos usuários
         RelacaoUsuarios.column("id", width=30)
         RelacaoUsuarios.heading("id", text="ID")
         RelacaoUsuarios.column("nome", width=300)
@@ -201,7 +219,7 @@ class Mouk:
         RelacaoUsuarios.heading("cpf", text="CPF")
         RelacaoUsuarios.place(relx=0.01, rely=0.4, relwidth=0.98, relheight=0.59)
 
-    # Exibe a versão atual do programa (ainda apenas um texto sem atualização automatica)
+    # Exibe a versão atual do programa (ainda apenas um texto sem atualização automática)
     def versao(self):
         Versao = CTkLabel(self.Frame1,
                           text='V 1.2.4',
