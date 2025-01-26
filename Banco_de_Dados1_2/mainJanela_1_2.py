@@ -1,9 +1,9 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
-# Importa a função treeview do tkinter
-from tkinter import ttk
+# Importa as funções treeview e mesasgebox do tkinter
+from tkinter import ttk, messagebox
 # Importa as funções de inserir novos dados e conexão do módulo de integração Python/SQL
-from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, conectar, ListaDados
+from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, ListaDados, DeletaDados
 
 # Nome da Variável/Janela
 janela = CTk()
@@ -29,7 +29,7 @@ class Mouk:
     def config_tela(self):
         self.janela.config(background='#363636')  # Cor de fundo
         self.janela.title('Mouk - Banco de Dados')  # Título
-        self.janela.geometry('1020x660')  # Dimensões x | y
+        self.janela.geometry('1320x660')  # Dimensões x | y
 
     # Configurações do Frame para as opções laterais a esquerda
     def frame_opcoes(self):
@@ -97,7 +97,7 @@ class Mouk:
                                    f"VALUES('{nome}', '{AnoNascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
 
                     # Função que tenta inserir novos dados com base nos parâmetros passados
-                    NovosDados(conectar, Novos_Dados)
+                    NovosDados(Novos_Dados)
                 except:
                     # Retorna mensagem de erro caso a inserção de dados não funcione
                     print(f'Erro no cadastro')
@@ -170,9 +170,25 @@ class Mouk:
         def listar():
             RelacaoUsuarios.delete(*RelacaoUsuarios.get_children())
             comandoSql = "SELECT * FROM MOUK_USUARIOS order by ID_USUARIO"
-            relacao = ListaDados(conectar, comandoSql)
+            relacao = ListaDados(comandoSql)
             for l in relacao:
                 RelacaoUsuarios.insert("", "end", values=l)
+
+        # Função que deleta os dados selecionados
+        def deletar():
+            try:
+                DadoSelecionado = RelacaoUsuarios.selection()[0]
+                Dados = RelacaoUsuarios.item(DadoSelecionado, "values")
+                selecionado = Dados[1]
+                comandoSql = f"DELETE FROM MOUK_USUARIOS WHERE NOME LIKE '%{selecionado}%'"
+                try:
+                    DeletaDados(comandoSql)
+                except:
+                    messagebox.showinfo(title="Erro", messsage="Erro ao deletar!")
+                finally:
+                    RelacaoUsuarios.delete(DadoSelecionado)
+            except:
+                messagebox.showinfo(title="Erro", message="Nenhum item selecionado!")
 
         # Botão para listar os usuários cadastrados
         BotaoListar = CTkButton(self.OpcaoListar,
@@ -197,7 +213,8 @@ class Mouk:
                                 font=("Arial", 11, "bold"),
                                 text_color='#DCDCDC',
                                 hover_color='#228B22',
-                                fg_color='grey25').place(relx=0.65, rely=0.1, relwidth=0.1, relheight=0.09)
+                                fg_color='grey25',
+                                command=deletar).place(relx=0.65, rely=0.1, relwidth=0.1, relheight=0.09)
 
         RelacaoUsuarios = ttk.Treeview(self.OpcaoListar, columns=("id", "nome", "data_nascimento", "e-mail",
                                                                   "contato", "cargo", "cpf"), show="headings")
@@ -222,7 +239,7 @@ class Mouk:
     # Exibe a versão atual do programa (ainda apenas um texto sem atualização automática)
     def versao(self):
         Versao = CTkLabel(self.Frame1,
-                          text='V 1.2.4',
+                          text='V 1.2.7',
                           font=('Arial',10,'bold'),
                           text_color='#228B22',
                           fg_color='grey15').place(relx=0.102, rely=0.89, relwidth=0.05, relheight=0.03)
