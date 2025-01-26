@@ -15,7 +15,7 @@ class Mouk:
         self.janela = janela
         self.config_tela()
         self.frame_opcoes()
-        self.OpcaoListar_Usuarios()
+        self.OpcaoUsuarios_Cadastrados()
         self.OpcaoCadastrar_Usuarios()
         self.encerrar()
         self.versao()
@@ -55,7 +55,7 @@ class Mouk:
                                   hover_color='#228B22',
                                   fg_color='grey25',
                                   corner_radius=0,
-                                  command=self.OpcaoListar_Usuarios).place(x=0.001, rely=0.085, relwidth=0.25, relheight=0.083)
+                                  command=self.OpcaoUsuarios_Cadastrados).place(x=0.001, rely=0.085, relwidth=0.25, relheight=0.083)
 
         # Botão para finalizar a janela
         BotaoEncerrar = CTkButton(self.Frame1,
@@ -104,7 +104,7 @@ class Mouk:
                 finally:
                     # Exibe texto confirmando o cadastro
                     TextoCadastrado = CTkLabel(self.OpcaoCadastrar,
-                                                 text=f'Usuário {nome[1].split()} cadastrado com sucesso!',
+                                                 text=f'Usuário {nome} cadastrado com sucesso!',
                                                  font=("Arial", 16, "bold"),
                                                  text_color='#228B22')
                     TextoCadastrado.place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
@@ -162,7 +162,7 @@ class Mouk:
                                    command=cadastrar).place(relx=0.15, rely=0.43, relwidth=0.71, relheight=0.09)
 
     # Configurações do frame com as funcionalidades para listar usuários cadastrados
-    def OpcaoListar_Usuarios(self):
+    def OpcaoUsuarios_Cadastrados(self):
         self.OpcaoListar = CTkFrame(self.janela, fg_color='grey18')
         self.OpcaoListar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
 
@@ -202,7 +202,7 @@ class Mouk:
         RelacaoUsuarios = ttk.Treeview(self.OpcaoListar, columns=("id", "nome", "data_nascimento", "e-mail",
                                                                   "contato", "cargo", "cpf"), show="headings")
 
-        # Configurações das colunas coma  relação dos usuários
+        # Configurações das colunas com a  relação dos usuários
         RelacaoUsuarios.column("id", width=30)
         RelacaoUsuarios.heading("id", text="ID")
         RelacaoUsuarios.column("nome", width=300)
