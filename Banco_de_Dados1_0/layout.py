@@ -1,4 +1,4 @@
-from Banco_de_Dados.cores import verde, limpa, azul
+from Banco_de_Dados.Banco_de_Dados1_0.cores import verde, limpa, azul
 
 
 def layout():

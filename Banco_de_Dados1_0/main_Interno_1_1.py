@@ -1,9 +1,8 @@
 # Imports de libs necessárias
 from time import sleep
-from Banco_de_Dados.Banco_de_Dados1_0 import cadastros1_0
+from Banco_de_Dados.Banco_de_Dados1_0 import cadastros1_0, layout
 from Banco_de_Dados.Banco_de_Dados1_0.cadastros1_0 import cabeçalho
-from Banco_de_Dados import layout
-from Banco_de_Dados.cores import vermelho, negrito
+from Banco_de_Dados.Banco_de_Dados1_0.cores import vermelho, negrito
 
 # Programa principal
 fim = False

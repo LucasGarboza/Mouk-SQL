@@ -1,5 +1,5 @@
 from time import sleep
-from Banco_de_Dados.cores import verde, negrito, limpa, amarelo, vermelho
+from Banco_de_Dados.Banco_de_Dados1_0.cores import verde, negrito, limpa, amarelo, vermelho
 
 
 def cabeçalho(txt, cor=verde, temp=0.1):
