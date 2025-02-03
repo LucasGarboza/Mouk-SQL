@@ -1,7 +1,9 @@
 # Importa a biblioteca ctk com todas as funções
 from customtkinter import *
-# Importa as funções treeview e mesasgebox do tkinter
+# Importa as funções treeview e messagebox do tkinter
 from tkinter import ttk, messagebox
+# Importa a função de enviar e-mail do módulo Emails
+from Banco_de_Dados.Banco_de_Dados1_2.Emails import enviarEmail
 # Importa as funções de inserir novos dados e conexão do módulo de integração Python/SQL
 from Banco_de_Dados.Banco_de_Dados1_2.IntegraçaoSQL import NovosDados, ListaDados, DeletaDados
 
@@ -15,8 +17,8 @@ class Mouk:
         self.janela = janela
         self.config_tela()
         self.frame_opcoes()
-        self.OpcaoUsuarios_Cadastrados()
         self.OpcaoCadastrar_Usuarios()
+        self.OpcaoAtualizacoes()
         self.encerrar()
         self.versao()
         self.janela.mainloop()
@@ -35,27 +37,27 @@ class Mouk:
     def frame_opcoes(self):
         self.Frame1 = CTkFrame(self.janela,
                                corner_radius=0,
-                               fg_color='grey15').place(relx=0, rely=0, relwidth=0.25, relheight=1)
+                               fg_color='grey15').place(relx=0, rely=0, relwidth=0.15, relheight=1)
 
         # Botao 'Cadastrar Usuário'
         BotaoCadastrarUsuario = CTkButton(self.Frame1,
-                                   text='CADASTRAR USUÁRIO',
+                                   text='USUÁRIOS',
                                    font=("Arial", 11, "bold"),
                                    text_color='white',
                                    hover_color='#228B22',
                                    fg_color='grey25',
                                    corner_radius=0,
-                                   command=self.OpcaoCadastrar_Usuarios).place(relx=0.001, rely=0, relwidth=0.25, relheight=0.083)
+                                   command=self.OpcaoCadastrar_Usuarios).place(relx=0.001, rely=0.062, relwidth=0.15, relheight=0.06)
 
         # Botão 'Usuários cadastrados'
         BotaoUsuarios = CTkButton(self.Frame1,
-                                  text='USUÁRIOS CADASTRADOS',
+                                  text='ATUALIZAÇÕES',
                                   font=("Arial", 11, "bold"),
                                   text_color='white',
                                   hover_color='#228B22',
                                   fg_color='grey25',
                                   corner_radius=0,
-                                  command=self.OpcaoUsuarios_Cadastrados).place(x=0.001, rely=0.085, relwidth=0.25, relheight=0.083)
+                                  command=self.OpcaoAtualizacoes).place(relx=0.001, rely=0.0, relwidth=0.15, relheight=0.06)
 
         # Botão para finalizar a janela
         BotaoEncerrar = CTkButton(self.Frame1,
@@ -65,106 +67,17 @@ class Mouk:
                                   hover_color='#B22222',
                                   fg_color='grey25',
                                   corner_radius=0,
-                                  command=self.encerrar).place(x=0.001, rely=0.925, relwidth=0.25, relheight=0.083)
+                                  command=self.encerrar).place(relx=0.001, rely=0.94, relwidth=0.15, relheight=0.06)
+
+    # Configurações do frame com as funcionalidades para listar usuários cadastrados
+    def OpcaoAtualizacoes(self):
+        self.OpcaoListar = CTkFrame(self.janela, fg_color='grey18')
+        self.OpcaoListar.place(relx=0.152, rely=0, relwidth=0.846, relheight=1)
 
     # Configurações do frame com as funcionalidades para cadastrar um usuário
     def OpcaoCadastrar_Usuarios(self):
-        self.OpcaoCadastrar = CTkFrame(janela, fg_color='grey18', corner_radius=0)
-        self.OpcaoCadastrar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
-
-        # Realiza a coleta e verificação e validação dos dados e os cadastra no banco de dados
-        def cadastrar():
-            # nome = CxTextoNome.get()
-            AnoNascimento = CxTexToAnoNascimento.get()
-            cpf = CxTexToCpf.get()
-            email = CxTexToEmail.get()
-            cargo = CxTexToCargo.get()
-            contato = CxTexToContato.get()
-            nome = CxTextoNome.get()
-
-            # Verifica se algum campo está vazio e retorna uma mensagem de erro
-            if nome == '' or AnoNascimento == '' or cpf == '' or email == '' or cargo == '' or contato == '':
-                TextoCadastrado = CTkLabel(self.OpcaoCadastrar,
-                                           text=f'Por favor insira todos os\n'
-                                                f'dados para continuar!',
-                                           font=("Arial", 16, "bold"),
-                                           text_color='red').place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
-            else:
-                try:
-                    # Comando que insere novos dados usando as variaveis correspondentes
-                    Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
-                                   "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
-                                   f"VALUES('{nome}', '{AnoNascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
-
-                    # Função que tenta inserir novos dados com base nos parâmetros passados
-                    NovosDados(Novos_Dados)
-                except:
-                    # Retorna mensagem de erro caso a inserção de dados não funcione
-                    print(f'Erro no cadastro')
-                finally:
-                    # Exibe texto confirmando o cadastro
-                    TextoCadastrado = CTkLabel(self.OpcaoCadastrar,
-                                                 text=f'Usuário {nome} cadastrado com sucesso!',
-                                                 font=("Arial", 16, "bold"),
-                                                 text_color='#228B22')
-                    TextoCadastrado.place(relx=0.1, rely=0.53, relwidth=0.8, relheight=0.09)
-                    # Deleta todos os dados adicionados na janela para um novo cadastro
-                    CxTextoNome.delete(0, END)
-                    CxTexToAnoNascimento.delete(0, END)
-                    CxTexToCargo.delete(0, END)
-                    CxTexToContato.delete(0, END)
-                    CxTexToCpf.delete(0, END)
-                    CxTexToEmail.delete(0, END)
-
-        # Caixa de texto 'Informe os dados'
-        TextoInformeDados = CTkLabel(self.OpcaoCadastrar,
-                                     text='Informe os dados abaixo:',
-                                     font=("Arial", 11, "bold"),
-                                     text_color='white').place(relx=0.075, rely=0.02, relwidth=0.275, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir seu nome
-        CxTextoNome = CTkEntry(self.OpcaoCadastrar,
-                               placeholder_text='Nome Completo')
-        CxTextoNome.place(relx=0.15, rely=0.1, relwidth=0.4, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir o ano de nascimento
-        CxTexToAnoNascimento = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='Data de Nascimento')
-        CxTexToAnoNascimento.place(relx=0.56, rely=0.1, relwidth=0.3, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir seu e-mail
-        CxTexToEmail = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='E-mail')
-        CxTexToEmail.place(relx=0.15, rely=0.21, relwidth=0.42, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir seu cpf
-        CxTexToCpf = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='CPF: 000.000.000-00')
-        CxTexToCpf.place(relx=0.15, rely=0.32, relwidth=0.3, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir o contato de telefone
-        CxTexToContato = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='TEL: (00) 0 0000-0000')
-        CxTexToContato.place(relx=0.58, rely=0.21, relwidth=0.28, relheight=0.1)
-
-        # Caixa de texto para o usuário inserir seu cargo
-        CxTexToCargo = CTkEntry(self.OpcaoCadastrar,
-                                placeholder_text='Cargo')
-        CxTexToCargo.place(relx=0.46, rely=0.32, relwidth=0.4, relheight=0.1)
-
-        # Botão Cadastrar
-        BotaoCadastrar = CTkButton(self.OpcaoCadastrar,
-                                   text='CADASTRAR',
-                                   font=("Arial", 11, "bold"),
-                                   text_color='#DCDCDC',
-                                   hover_color='#228B22',
-                                   fg_color='grey25',
-                                   command=cadastrar).place(relx=0.15, rely=0.43, relwidth=0.71, relheight=0.09)
-
-    # Configurações do frame com as funcionalidades para listar usuários cadastrados
-    def OpcaoUsuarios_Cadastrados(self):
-        self.OpcaoListar = CTkFrame(self.janela, fg_color='grey18')
-        self.OpcaoListar.place(relx=0.251, rely=0, relwidth=0.75, relheight=1)
+        self.OpcaoCadastrar = CTkFrame(self.janela, fg_color='grey18')
+        self.OpcaoCadastrar.place(relx=0.152, rely=0, relwidth=0.846, relheight=1)
 
         # Função que lista todos os usuários cadastrados e exibe na relação
         def listar():
@@ -191,32 +104,32 @@ class Mouk:
                 messagebox.showinfo(title="Erro", message="Nenhum item selecionado!")
 
         # Botão para listar os usuários cadastrados
-        BotaoListar = CTkButton(self.OpcaoListar,
-                                   text='LISTAR',
-                                   font=("Arial", 11, "bold"),
-                                   text_color='#DCDCDC',
-                                   hover_color='#228B22',
-                                   fg_color='grey25',
-                                   command=listar).place(relx=0.25, rely=0.1, relwidth=0.1, relheight=0.09)
-
-        # Botão para buscar usuários cadastrados
-        BotaoBuscar = CTkButton(self.OpcaoListar,
-                                text='BUSCAR',
-                                font=("Arial", 11, "bold"),
-                                text_color='#DCDCDC',
-                                hover_color='#228B22',
-                                fg_color='grey25').place(relx=0.45, rely=0.1, relwidth=0.1, relheight=0.09)
-
-        # Botão para deletar usuários cadastrados
-        BotaoDeletar = CTkButton(self.OpcaoListar,
-                                text='DELETAR',
+        BotaoListar = CTkButton(self.OpcaoCadastrar,
+                                text='LISTAR',
                                 font=("Arial", 11, "bold"),
                                 text_color='#DCDCDC',
                                 hover_color='#228B22',
                                 fg_color='grey25',
-                                command=deletar).place(relx=0.65, rely=0.1, relwidth=0.1, relheight=0.09)
+                                command=listar).place(relx=0.85, rely=0.05, relwidth=0.1, relheight=0.09)
 
-        RelacaoUsuarios = ttk.Treeview(self.OpcaoListar, columns=("id", "nome", "data_nascimento", "e-mail",
+        # Botão para buscar usuários cadastrados
+        BotaoBuscar = CTkButton(self.OpcaoCadastrar,
+                                text='BUSCAR',
+                                font=("Arial", 11, "bold"),
+                                text_color='#DCDCDC',
+                                hover_color='#228B22',
+                                fg_color='grey25').place(relx=0.85, rely=0.155, relwidth=0.1, relheight=0.09)
+
+        # Botão para deletar usuários cadastrados
+        BotaoDeletar = CTkButton(self.OpcaoCadastrar,
+                                 text='DELETAR',
+                                 font=("Arial", 11, "bold"),
+                                 text_color='#DCDCDC',
+                                 hover_color='#228B22',
+                                 fg_color='grey25',
+                                 command=deletar).place(relx=0.85, rely=0.26, relwidth=0.1, relheight=0.09)
+
+        RelacaoUsuarios = ttk.Treeview(self.OpcaoCadastrar, columns=("id", "nome", "data_nascimento", "e-mail",
                                                                   "contato", "cargo", "cpf"), show="headings")
 
         # Configurações das colunas com a  relação dos usuários
@@ -234,7 +147,91 @@ class Mouk:
         RelacaoUsuarios.heading("cargo", text="CARGO")
         RelacaoUsuarios.column("cpf", width=100)
         RelacaoUsuarios.heading("cpf", text="CPF")
-        RelacaoUsuarios.place(relx=0.01, rely=0.4, relwidth=0.98, relheight=0.59)
+        RelacaoUsuarios.place(relx=0.0001, rely=0.4, relwidth=1, relheight=0.596)
+
+        # Realiza a coleta e verificação e validação dos dados e os cadastra no banco de dados
+        def cadastrar():
+            # nome = CxTextoNome.get()
+            AnoNascimento = CxTexToAnoNascimento.get()
+            cpf = CxTexToCpf.get()
+            email = CxTexToEmail.get()
+            cargo = CxTexToCargo.get()
+            contato = CxTexToContato.get()
+            nome = CxTextoNome.get()
+
+            # Verifica se algum campo está vazio e retorna uma mensagem de erro
+            if nome == '' or AnoNascimento == '' or cpf == '' or email == '' or cargo == '' or contato == '':
+                messagebox.showinfo(title="Informações incompletas", message="Por favor, insira todos os dados para continuar!")
+
+            else:
+                try:
+                    # Comando que insere novos dados usando as variaveis correspondentes
+                    Novos_Dados = ("INSERT INTO MOUK_USUARIOS"
+                                   "(NOME, ANO_NASCIMENTO, EMAIL, CONTATO, CARGO, CPF)"
+                                   f"VALUES('{nome}', '{AnoNascimento}', '{email}', '{contato}', '{cargo}', '{cpf}')")
+
+                    # Função que tenta inserir novos dados com base nos parâmetros passados
+                    NovosDados(Novos_Dados)
+                except:
+                    # Retorna mensagem de erro caso a inserção de dados não funcione
+                    print(f'Erro no cadastro')
+                finally:
+                    # Exibe texto confirmando o cadastro e envia um e-mail para o usuário confirmando o cadastro
+                    enviarEmail(email, nome)
+                    messagebox.showinfo(title="Novo Registro", message=f"Usuário(a) {nome} cadastrado(a) com sucesso!")
+
+                    # Deleta todos os dados adicionados na janela para um novo cadastro
+                    CxTextoNome.delete(0, END)
+                    CxTexToAnoNascimento.delete(0, END)
+                    CxTexToCargo.delete(0, END)
+                    CxTexToContato.delete(0, END)
+                    CxTexToCpf.delete(0, END)
+                    CxTexToEmail.delete(0, END)
+
+        # Caixa de texto 'Informe os dados'
+        TextoInformeDados = CTkLabel(self.OpcaoCadastrar,
+                                     text='Informe os dados abaixo:',
+                                     font=("Arial", 11, "bold"),
+                                     text_color='white').place(relx=0.034, rely=0.004, relwidth=0.275, relheight=0.05)
+
+        # Caixa de texto para o usuário inserir seu nome
+        CxTextoNome = CTkEntry(self.OpcaoCadastrar,
+                               placeholder_text='Nome Completo')
+        CxTextoNome.place(relx=0.1, rely=0.05, relwidth=0.4, relheight=0.06)
+
+        # Caixa de texto para o usuário inserir o ano de nascimento
+        CxTexToAnoNascimento = CTkEntry(self.OpcaoCadastrar,
+                                placeholder_text='Data de Nascimento: DD/MM/AAAA')
+        CxTexToAnoNascimento.place(relx=0.51, rely=0.05, relwidth=0.3, relheight=0.06)
+
+        # Caixa de texto para o usuário inserir seu e-mail
+        CxTexToEmail = CTkEntry(self.OpcaoCadastrar,
+                                placeholder_text='E-mail')
+        CxTexToEmail.place(relx=0.1, rely=0.13, relwidth=0.42, relheight=0.06)
+
+        # Caixa de texto para o usuário inserir o contato de telefone
+        CxTexToContato = CTkEntry(self.OpcaoCadastrar,
+                                  placeholder_text='TEL: (00) 0 0000-0000')
+        CxTexToContato.place(relx=0.53, rely=0.13, relwidth=0.28, relheight=0.06)
+
+        # Caixa de texto para o usuário inserir seu cpf
+        CxTexToCpf = CTkEntry(self.OpcaoCadastrar,
+                                placeholder_text='CPF: 000.000.000-00')
+        CxTexToCpf.place(relx=0.1, rely=0.21, relwidth=0.3, relheight=0.06)
+
+        # Caixa de texto para o usuário inserir seu cargo
+        CxTexToCargo = CTkEntry(self.OpcaoCadastrar,
+                                placeholder_text='Cargo')
+        CxTexToCargo.place(relx=0.41, rely=0.21, relwidth=0.4, relheight=0.06)
+
+        # Botão Cadastrar
+        BotaoCadastrar = CTkButton(self.OpcaoCadastrar,
+                                   text='CADASTRAR NOVO USUÁRIO',
+                                   font=("Arial", 11, "bold"),
+                                   text_color='#DCDCDC',
+                                   hover_color='#228B22',
+                                   fg_color='grey25',
+                                   command=cadastrar).place(relx=0.1, rely=0.29, relwidth=0.71, relheight=0.06)
 
     # Exibe a versão atual do programa (ainda apenas um texto sem atualização automática)
     def versao(self):
@@ -242,7 +239,7 @@ class Mouk:
                           text='V 1.2.7',
                           font=('Arial',10,'bold'),
                           text_color='#228B22',
-                          fg_color='grey15').place(relx=0.102, rely=0.89, relwidth=0.05, relheight=0.03)
+                          fg_color='grey15').place(relx=0.05, rely=0.9, relwidth=0.05, relheight=0.03)
 
 # Mantém o programa em loop
 Mouk()
