@@ -75,4 +75,3 @@ def ListaDados(dados):
 # Função que busca apenas os dados solicitados nos cadastros
 def BuscaDados():
     pass
-

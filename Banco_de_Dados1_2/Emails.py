@@ -6,8 +6,8 @@ def enviarEmail(email_destino, nome):
     #Conexão com SMTP
     server_smtp = "smtp.gmail.com"
     porta = 587
-    autor_email = "email de origem"
-    autor_senha = "senha"
+    autor_email = "seu_email"
+    autor_senha = "sua_senha"
 
     #Configurações do Email
     recebedor_email = email_destino
@@ -29,9 +29,9 @@ def enviarEmail(email_destino, nome):
                         <tr>
                             <td align="center" style="padding: 40px 0;">
                                 <img src="https://cdn.pixabay.com/photo/2017/08/01/13/36/computer-2565478_1280.jpg" alt="Paisagem" width="400" style="display: block; margin: 0 auto;">
-                                <p style="margin-top: 20px; text-align: center;">Olá {nome}, seja bem vindo(a)!</p>
+                                <p style="margin-top: 20px; text-align: center;">Olá {nome}, seja bem vindo(a) a Mouk.</p>
                                 <p style="text-align: center;">Este é um e-mail de confirmação de cadastro.</p>
-                                <p style="text-align: center;">Agradecemos por trabalhar conosco.</p>
+                                <p style="text-align: center;">Agradecemos por fazer parte da equipe!.</p>
                             </td>
                         </tr>
                     </table>
@@ -58,7 +58,7 @@ def enviarEmail(email_destino, nome):
         conectar.login(autor_email, autor_senha)
 
         conectar.sendmail(autor_email, recebedor_email, mensagem.as_string())
-        print("Email enviado com sucesso!")
+        print("E-mail enviado com sucesso!")
     except Exception as Erro:
         print(f"Erro com {Erro}")
     finally:
