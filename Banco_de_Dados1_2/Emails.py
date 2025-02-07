@@ -59,7 +59,7 @@ def enviarEmail(email_destino, nome):
 
         conectar.sendmail(autor_email, recebedor_email, mensagem.as_string())
         print("E-mail enviado com sucesso!")
+        conectar.quit()
     except Exception as Erro:
         print(f"Erro com {Erro}")
-    finally:
-        conectar.quit()
+

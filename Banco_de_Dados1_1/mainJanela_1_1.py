@@ -3,12 +3,12 @@ from customtkinter import *
 
 def fechar():
     """
-    Finaliza a janela atual
+    Finaliza a janela_main atual
     :return: QUIT
     """
     janela.quit()
 
-# Configurações da janela
+# Configurações da janela_main
 janela = CTk() #Nome da variável
 set_appearance_mode('dark') #Aparência
 janela.title('Banco de Dados') #Título
@@ -58,7 +58,7 @@ BotaoListar = CTkButton(janela,
                         hover_color='#1E90FF',
                         fg_color='#696969').place(relx=0.25, rely=0.63, relwidth=0.5, relheight=0.10)
 
-# Botão para finalizar a janela
+# Botão para finalizar a janela_main
 BotaoEncerrar = CTkButton(janela,
                           text='FINALIZAR',
                           command=fechar,

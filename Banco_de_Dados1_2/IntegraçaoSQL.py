@@ -75,3 +75,7 @@ def ListaDados(dados):
 # Função que busca apenas os dados solicitados nos cadastros
 def BuscaDados():
     pass
+
+# Função que altera apenas os dados solicitados nos cadastros
+def AlteraDados():
+    pass
