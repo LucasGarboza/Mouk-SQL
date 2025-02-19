@@ -2,6 +2,10 @@
 Minha versão de um banco de dados integrado com SQL para cadastro e gerenciamento de informações de usuários usando Python
 
 # Em desenvolvimento constante
+Versão 1.2.11:
+- Adicionado a lib django para criar e acessar um site com informações sobre o sistema de forma sincronizada com
+o banco de dados e o código
+
 Versão 1.2.10:
 - Adicionado uma janela de login antes da janela principal 
 
