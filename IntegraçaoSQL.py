@@ -13,19 +13,21 @@ def ConexaoSql():
         return conexao
 
 # Função que cria uma nova tabela com base nos parâmetros passados
-def NovaTabela(tabela):
-    """
-    Comando SQL: "CREATE NEW TABLE NOME_TABELA(
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    NOME VARCHAR(30),
-                    EMAIL VARCHAR(30),
-                    IDADE VARCHAR(10)
-                    );"
-    """
+def NovaTabela():
+    comandoSql = """CREATE TABLE MOUK_USUARIOS(
+                        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                        NOME VARCHAR(30),
+                        EMAIL VARCHAR(30),
+                        DATA_NASCIMENTO VARCHAR(10),
+                        SENHA VARCHAR(20),
+                        CARGO VARCHAR(20),
+                        CONTATO VARCHAR(20),
+                        CPF VARCHAR(20)
+                    );"""
     try:
         conectar = ConexaoSql()
         conect = conectar.cursor()
-        conect.execute(tabela)
+        conect.execute(comandoSql)
         print("Tabela criada com sucesso!")
         conectar.close()
     except Error as erro:
@@ -35,7 +37,7 @@ def NovaTabela(tabela):
 def NovosDados(dados):
     """
     Comando SQL: "INSERT INTO NOME_TABELA
-                    (NOME, EMAI, IDADE)
+                    (NOME, EMAIl, IDADE)
                 VALUES ("nome", "email", "idade")"
     """
     try:

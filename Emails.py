@@ -6,7 +6,7 @@ def enviarEmail(email_destino, nome):
     #Conexão com SMTP
     server_smtp = "smtp.gmail.com"
     porta = 587
-    autor_email = "seu_email"
+    autor_email = "seu e-mail"
     autor_senha = "sua_senha"
 
     #Configurações do Email
@@ -61,5 +61,4 @@ def enviarEmail(email_destino, nome):
         print("E-mail enviado com sucesso!")
         conectar.quit()
     except Exception as Erro:
-        print(f"Erro com {Erro}")
-
+        print(f"Erro ao enviar email: {Erro}")
